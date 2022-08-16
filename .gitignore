@@ -1,0 +1,4 @@
+*.code-workspace
+dist
+build
+__pycache__
