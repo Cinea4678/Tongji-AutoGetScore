@@ -123,6 +123,12 @@
      </item>
      <item>
       <widget class="QComboBox" name="selectTermComboBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>1</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="currentText">
         <string>请先输入cookie</string>
        </property>
@@ -413,6 +419,9 @@
       <height>23</height>
      </rect>
     </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;这里是查询进度条&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;用来搞心理安慰作用的，其实和查询进度没关系&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
     <property name="value">
      <number>0</number>
     </property>
@@ -431,6 +440,9 @@
       <width>501</width>
       <height>171</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;这里是日志输出区域&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="undoRedoEnabled">
      <bool>false</bool>
@@ -465,6 +477,9 @@
      <height>161</height>
     </rect>
    </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;意不意外，居然不是码类的，甚至不是电类的&lt;/p&gt;&lt;p&gt;原来是分流政策不让我学码&lt;/p&gt;&lt;p&gt;蚌埠住了&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
    <property name="text">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;作者: Cinea&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;测绘学院 2021级&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;自由摄影师&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;https://www.cinea.com.cn&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;个人网站&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;https://www.cinea.com.cn&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;提交BUG&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
@@ -473,6 +488,19 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>studentNumberEdit</tabstop>
+  <tabstop>sNumOKBtn</tabstop>
+  <tabstop>cookieLineEdt</tabstop>
+  <tabstop>cookieConfirmBtn</tabstop>
+  <tabstop>selectTermComboBox</tabstop>
+  <tabstop>mailLineEdt</tabstop>
+  <tabstop>mailConfirmBtn</tabstop>
+  <tabstop>queryTimeEdit</tabstop>
+  <tabstop>delayTimeOK</tabstop>
+  <tabstop>startButton</tabstop>
+  <tabstop>outputWindow</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -482,8 +510,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>623</x>
-     <y>49</y>
+     <x>669</x>
+     <y>76</y>
     </hint>
     <hint type="destinationlabel">
      <x>349</x>
@@ -498,8 +526,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>623</x>
-     <y>219</y>
+     <x>669</x>
+     <y>246</y>
     </hint>
     <hint type="destinationlabel">
      <x>349</x>
@@ -514,8 +542,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>154</x>
-     <y>180</y>
+     <x>221</x>
+     <y>210</y>
     </hint>
     <hint type="destinationlabel">
      <x>349</x>
@@ -530,8 +558,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>271</x>
-     <y>299</y>
+     <x>317</x>
+     <y>326</y>
     </hint>
     <hint type="destinationlabel">
      <x>349</x>

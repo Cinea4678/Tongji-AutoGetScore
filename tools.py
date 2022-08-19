@@ -14,7 +14,7 @@ def send_mail(sub,content,recivers):
     try:  
         s = smtplib.SMTP_SSL("smtpdm.aliyun.com",465)
         s.ehlo("CESCORESERVICE")
-        s.login(sender,"cinea2zsy")  #登陆服务器
+        s.login(sender,"zsyZSY20030810")  #登陆服务器
         s.sendmail(me, recivers, msg.as_string())  #发送邮件
         s.close()  
         return True
@@ -30,7 +30,7 @@ def getDataOnce(cookie,snum)->requests.Response:
         "referer":"https://1.tongji.edu.cn/oldStysteMyGrades"    
     }
     try:
-        rawres = requests.get(url=f"https://1.tongji.edu.cn/api/scoremanagementservice/scoreGrades/getMyGrades?studentId={snum}&_t=1657018198500",headers=headers)
+        rawres = requests.get(url=f"https://1.tongji.edu.cn/api/scoremanagementservice/scoreGrades/getMyGrades?studentId={snum}&_t={int(time.time()*1000)}",headers=headers)
     except Exception as e:
         logger.error(e)
         raise e
@@ -54,6 +54,8 @@ def queryScores(cookie,basicData,term,mail):
             logger.error(f"查询成绩时出现异常！1系统返回的信息：{rawres.text}")
             return 1
         newgrades=[]
+        if term not in res['data']['term']:
+            return 0
         for courses in res['data']['term'][term]['creditInfo']:
             if courses['id'] not in grades:
                 newgrades.append(courses)
@@ -68,3 +70,4 @@ def queryScores(cookie,basicData,term,mail):
             message += f"<hr>当前本学期绩点<b>{res['data']['term'][0]['averagePoint']}</b>，总绩点<b>{res['data']['totalGradePoint']}</b><br>已修学分<b>{res['data']['actualCredit']}</b>，挂科学分<b>{res['data']['failingCredits']}</b>。</p><p>本邮件由Cinea Works服务器自动发送。</p>"
             send_mail("新出成绩提醒",message,[mail])
             return 0
+
