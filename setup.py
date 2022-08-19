@@ -18,7 +18,7 @@ OPTIONS = {
                     'CFBundleIdentifier' : 'tongjiScoreAutoGet', # 应用包名、唯一标识
                     'NSHumanReadableCopyright': 'Copyright © 2022 Cinea Works. Use the GPL license.', # 可读版权
                     'includes': ['loguru', 'PyQt5.QtCore', 'PyQt5.QtWidgets', 'PyQt5.QtGui','requests']
-                       }
+                       
            }
 }
 
