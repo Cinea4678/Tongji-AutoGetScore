@@ -1,4 +1,7 @@
 # Tongji-AutoGetScore
+
+> **警告：本项目还未建设完成，请稍候再来访问。**
+
 自动从同济大学教务网获取成绩并推送邮件通知。
 
 **本项目是：**
@@ -42,7 +45,13 @@ git clone https://github.com/Cinea4678/Tongji-AutoGetScore.git
 
 ```bash
 cd Tongji-AutoGetScore
-pip install -r 
+pip3 install -r pipRequirement.txt
+```
+
+3. 启动程序
+
+```bash
+python3 main.py
 ```
 
 
