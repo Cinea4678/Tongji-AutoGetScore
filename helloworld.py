@@ -1,13 +1,16 @@
 import sys
-from PyQt5.QtWidgets import QApplication,QWidget,QDesktopWidget
-from PyQt5.QtGui import QIcon
+from PySide2.QtWidgets import QApplication,QWidget,QDesktopWidget,QMainWindow
+from PySide2.QtGui import QIcon
+from Ui_webViewer import Ui_MainWindow
 
 
-class Sample(QWidget):
+class Sample(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
 
-        self.initUI()
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
+        self.ui.webview.load('http://www.bing.com')
 
     def initUI(self):
         self.setGeometry(1200,600,450,220)

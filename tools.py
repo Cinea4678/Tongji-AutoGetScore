@@ -6,14 +6,14 @@ from loguru import logger
 sender = "noreply@cinea.com.cn"
 
 def send_mail(sub,content,recivers):
-    me="成绩查询服务<noreply@cinea.com.cn>"
+    me="成绩查询服务 <noreply@cinea.com.cn>"
     msg=MIMEText(content,_subtype='html',_charset='gb2312')
     msg['Subject']=sub
     msg['From']=me
     msg['To']=";".join(recivers)
     try:  
         s = smtplib.SMTP_SSL("smtpdm.aliyun.com",465)
-        s.ehlo("CESCORESERVICE")
+        s.ehlo("SQPSCORESERVICE")
         s.login(sender,"zsyZSY20030810")  #登陆服务器
         s.sendmail(me, recivers, msg.as_string())  #发送邮件
         s.close()  
