@@ -1,10 +1,11 @@
-import Ui_checkScore,Ui_verifyMail
 import sys,re,threading,time,requests,json
 from PyQt5.QtWidgets import QApplication,QDialog,QMessageBox,QTextEdit,QPushButton,QProgressBar
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSignal,pyqtBoundSignal
 from loguru import logger
 import tools
+import ui.Ui_checkScore as Ui_checkScore
+import ui.Ui_verifyMail as Ui_verifyMail
 
 stop_flag = False
 
@@ -186,7 +187,7 @@ class MainDialog(QDialog):
 
     def __init__(self,parent=None) -> None:
         super(QDialog,self).__init__(parent)
-        self.setWindowIcon(QIcon("nmck_bb.ico"))
+        self.setWindowIcon(QIcon("sources/nmck_bb.ico"))
         self.ui=Ui_checkScore.Ui_Dialog()
         self.ui.setupUi(self)
         self.setFixedSize(700,620)

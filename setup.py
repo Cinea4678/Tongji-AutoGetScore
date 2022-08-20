@@ -10,7 +10,7 @@ from setuptools import setup
 APP = ['main.py']
 DATA_FILES = ['nmck_bb.ico','tools.py','Ui_checkScore.py','Ui_verifyMail.py']
 OPTIONS = {
-    'iconfile':'nmck.icns',
+    'iconfile':'sources/nmck.icns',
     'plist': {
                     'CFBundleName'   : 'Tongji-ScoreAutoGet',     # 应用名
                     'CFBundleDisplayName': '同济成绩自动查询器', # 应用显示名
