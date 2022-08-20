@@ -27,7 +27,12 @@
 
 ### Windows / macOS用户
 
-前往Github Releases或我的个人网站下载安装发行版。
+前往Releases页或我的个人网站下载安装发行版。
+
+配置需求：
+
+- Windows 10/11（Win 7/8请用下方手动安装）
+- macOS （等待测试）
 
 ### Linux用户/不希望使用发行版的用户
 
