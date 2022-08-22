@@ -4,3 +4,5 @@ build
 __pycache__
 helloworld.py
 *.spec
+ui/Ui_checkScore_cookieStyleOld.py
+ui/checkScore_cookieStyleOld.ui
