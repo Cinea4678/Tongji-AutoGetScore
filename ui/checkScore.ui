@@ -129,10 +129,28 @@
      <item>
       <widget class="QComboBox" name="selectTermComboBox">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>1</horstretch>
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>250</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="sizeIncrement">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="baseSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
        </property>
        <property name="currentText">
         <string>请先登录1系统</string>
@@ -539,7 +557,7 @@
    <property name="geometry">
     <rect>
      <x>540</x>
-     <y>550</y>
+     <y>540</y>
      <width>141</width>
      <height>51</height>
     </rect>
@@ -633,6 +651,22 @@
     <hint type="sourcelabel">
      <x>405</x>
      <y>49</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>349</x>
+     <y>305</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>aboutBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>610</x>
+     <y>565</y>
     </hint>
     <hint type="destinationlabel">
      <x>349</x>

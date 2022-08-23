@@ -1,6 +1,6 @@
-import sys,re,threading,time,requests,json
+import sys,re,threading,time,requests,json,os
 from PyQt5.QtWidgets import QApplication,QDialog,QMessageBox,QTextEdit,QPushButton,QProgressBar,QMainWindow
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon,QPixmap
 from PyQt5.QtCore import pyqtSignal,pyqtBoundSignal,QUrl,QRect
 from PyQt5.QtWebEngineWidgets import QWebEngineView,QWebEngineProfile
 from PyQt5.QtNetwork import QNetworkCookie
@@ -8,7 +8,8 @@ from loguru import logger
 import tools
 import ui.Ui_checkScore as Ui_checkScore
 import ui.Ui_verifyMail as Ui_verifyMail
-import ui.Ui_webCookie as Ui_webCookie
+import ui.Ui_manualLogin as Ui_manualLogin
+import ui.Ui_about as Ui_about
 
 stop_flag = False
 
@@ -132,10 +133,10 @@ class getCookieDialog(QMainWindow):
         self.jsid =""
         self.ssid=""
         self.browser = QWebEngineView()
-        QWebEngineProfile.defaultProfile().cookieStore().deleteAllCookies()
+        QWebEngineProfile.defaultProfile().clearAllVisitedLinks()
+        QWebEngineProfile.defaultProfile().clearHttpCache()
         QWebEngineProfile.defaultProfile().cookieStore().cookieAdded.connect(self.listenCookie)
-        self.browser.load(QUrl("https://1.tongji.edu.cn"))
-        QMessageBox.information(self,"提示","现在请你登录到1系统。\n由于1系统的登录状态每隔一段时间就会失效，所以需要你每次使用时都登录一次，敬请谅解。\n登录完成后，窗口会自动关闭。")
+        self.browser.load(QUrl("https://ids.tongji.edu.cn:8443/nidp/app/login?id=Login&sid=0&option=credential&sid=0&target=https%3A%2F%2Fids.tongji.edu.cn%3A8443%2Fnidp%2Foauth%2Fnam%2Fauthz%3Fscope%3Dprofile%26response_type%3Dcode%26redirect_uri%3Dhttps%3A%2F%2F1.tongji.edu.cn%2Fapi%2Fssoservice%2Fsystem%2FloginIn%26client_id%3D5fcfb123-b94d-4f76-89b8-475f33efa194"))
         self.setCentralWidget(self.browser)
     
     def listenCookie(self,cookie:QNetworkCookie):
@@ -147,7 +148,7 @@ class getCookieDialog(QMainWindow):
                     self.ssid = str(cookie.value(),encoding='utf-8')
                 if self.jsid !="" and self.ssid!="":
                     self.cookieOkSignal.emit(f"JSESSIONID={self.jsid};sessionid={self.ssid};language=cn")
-                    self.destroy(True,True)
+                    self.close()
 
 
 class verifyMailDialog(QDialog):
@@ -219,14 +220,14 @@ class MainDialog(QDialog):
 
     def __init__(self,parent=None) -> None:
         super(QDialog,self).__init__(parent)
-        self.setWindowIcon(QIcon("nmck_bb.ico"))
+        self.setWindowIcon(QIcon(os.path.abspath("sources/nmck_bb.ico")))
         self.ui=Ui_checkScore.Ui_Dialog()
         self.ui.setupUi(self)
         self.setFixedSize(700,612)
 
         self.setWindowTitle("成绩自动监测器")
         self.ui.mailLineEdt.setReadOnly(True)
-        self.ui.mailLineEdt.setText("请先填入cookie")
+        self.ui.mailLineEdt.setText("请先登录到1系统")
         
         self.sNum = ''
         self.cookie = ''
@@ -254,6 +255,19 @@ class MainDialog(QDialog):
         logger.info("窗口绘制完成")
         nwc = networkCheck()
         nwc.start()
+
+    def about(self):
+        class aboutDlg(QDialog):
+            def __init__(self):
+                super().__init__()
+                self.ui = Ui_about.Ui_Dialog()
+                self.ui.setupUi(self)
+                self.setFixedSize(780,440)
+                me_img = os.path.abspath("sources/CineaWorks.png")
+                image = QPixmap(me_img)
+                self.ui.img.setPixmap(image)
+        dlg = aboutDlg()
+        dlg.exec()
     
     def login2OS(self):
         if self.sNum == '':
@@ -261,23 +275,122 @@ class MainDialog(QDialog):
             return
         self.logindlg = getCookieDialog()
         self.logindlg.cookieOkSignal.connect(self.cookieOK)
+        QMessageBox.information(self,"提示","现在请你登录到1系统。\n由于1系统的登录状态每隔一段时间就会失效，所以需要你每次使用时都登录一次，敬请谅解。\n登录完成后，窗口会自动关闭。\n\n若页面长时间白屏，请尝试右键刷新或使用手工输入方式。")
         self.logindlg.show()
 
     def cookieOK(self,cookie:str):
+        self.logindlg.close()
         logger.info("取到了cookie："+cookie)
         self.logger.info("取到了cookie："+cookie)
         self.cookie = cookie
         self.logger.info("获取学生信息中")
-        t= requests.get(f"https://1.tongji.edu.cn/api/studentservice/studentDetailInfo/getStatusInfoByStudentId?studentId={self.sNum}&_t={int(time.time()*1000)}",headers={"cookie":self.cookie,"user-agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.66 Safari/537.36 Edg/103.0.1264.44","referer":"https://1.tongji.edu.cn/oldStysteMyGrades"}).text
-        res = json.loads(t)
-        self.ui.OSloginstatus.setText("<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">已登录</span></p></body></html>")
-        self.ui.nameLabel.setText(res['data'][0]['studentName'] if "studentName" in res['data'][0] else "无姓名信息")
-        self.ui.facultyLabel.setText(res['data'][0]['cultureProfessionName'] if "cultureProfessionName" in res['data'][0] else "无专业信息")
-        self.ui.gradeLabel.setText(str(res['data'][0]['currentGrade']) if "currentGrade" in res['data'][0] else "无年级信息")
-        self.logger.info("获取学生信息成功")
+        try:
+            t= requests.get(f"https://1.tongji.edu.cn/api/studentservice/studentDetailInfo/getStatusInfoByStudentId?studentId={self.sNum}&_t={int(time.time()*1000)}",headers={"cookie":self.cookie,"user-agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.66 Safari/537.36 Edg/103.0.1264.44","referer":"https://1.tongji.edu.cn/oldStysteMyGrades"}).text
+            res = json.loads(t)
+            self.ui.OSloginstatus.setText("<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">已登录</span></p></body></html>")
+            self.ui.nameLabel.setText(res['data'][0]['studentName'] if "studentName" in res['data'][0] else "无姓名信息")
+            self.ui.facultyLabel.setText(res['data'][0]['cultureProfessionName'] if "cultureProfessionName" in res['data'][0] else "无专业信息")
+            self.ui.gradeLabel.setText(str(res['data'][0]['currentGrade']) if "currentGrade" in res['data'][0] else "无年级信息")
+            self.logger.info("获取学生信息成功")
+        except Exception as e:
+            self.logger.info("获取学生信息不成功，错误是"+str(e)+"，服务器返回了"+t)
+        try:
+            rres = tools.getDataOnce(cookie,self.sNum)
+        except:
+            QMessageBox.warning(self,"错误","您的电脑可能没有联网")
+            return
+        if rres.status_code!=200:
+            self.logger.warning(f"验证cookie失败。HTTP错误码是{rres.status_code}，服务器返回信息：{rres.text}")
+            if rres.status_code==401:
+                QMessageBox.warning(self,"错误","您填入的cookie无法通过1系统验证。请您检查是否出现了以下几种情况：\n\n    1.cookie已经过旧了。cookie中的用于验证您身份的ID有效期很短，一般一段时间未使用就会失效。您可以重新获取一次cookie；\n    2.cookie的格式不正确，例如您可能为cookie带上了双引号。您可以查看输入框下方的教程；\n    3.如果您确定您正确地填入了学号和cookie却还是出现错误的话，请通过右下角的“提交Bug“中的QQ号码与我联系（加好友时注明提交bug）。\n\n")
+            elif rres.status_code==500:
+                QMessageBox.warning(self,"错误","1系统暂时宕机，请重新点击确认按钮")
+            else:
+                QMessageBox.warning(self,"未知错误","未能从1系统验证您的cookie，您可以截图日志区向我提交bug。")
+        else:
+            res = json.loads(rres.text)
+            self.basicInfo = res['data']
+            self.ui.selectTermComboBox.removeItem(0)
+            if len(self.basicInfo['term'])==0:
+                self.ui.selectTermComboBox.addItem("最新的学期")
+                QMessageBox.warning(self,"提示","您在成绩系统中目前没有学期信息，若启动查询，将默认查询本学期。\n请放心，这种情况是正常的。")
+            else:
+                for term in self.basicInfo['term']:
+                    self.ui.selectTermComboBox.addItem(term['termName'])
+            self.ui.mailLineEdt.setReadOnly(False)
+            self.ui.mailLineEdt.setText("")
+
 
     def manualSetCookie(self):
-        pass
+        class manual_cookie_dlg(QDialog):
+            manualCookieSubmit = pyqtSignal(str)
+            def __init__(self,parent:MainDialog) -> None:
+                super().__init__()
+                self.ui=Ui_manualLogin.Ui_Dialog()
+                self.ui.setupUi(self)
+                self.parent = parent
+                self.setFixedSize(540,171)
+                self.setWindowTitle("手动登录到1系统")
+            def accept(self) -> None:
+                cookie = self.ui.lineEdit.text()
+                if re.match("^.+=.+$",cookie) and "JSESSIONID" in cookie and "sessionid" in cookie:
+                    self.cookie = cookie
+                    logger.info(f"设置了cookie: {self.cookie }")
+                    self.parent.logger.info(f"设置了cookie")
+                else:
+                    QMessageBox.warning(self,"错误","您输入的cookie不正确")
+                    return
+                try:
+                    rres = tools.getDataOnce(cookie,self.parent.sNum)
+                except:
+                    QMessageBox.warning(self,"错误","您的电脑可能没有联网")
+                    return
+                if rres.status_code!=200:
+                    self.parent.logger.warning(f"验证cookie失败。HTTP错误码是{rres.status_code}，服务器返回信息：{rres.text}")
+                    if rres.status_code==401:
+                        QMessageBox.warning(self,"错误","您填入的cookie无法通过1系统验证。请您检查是否出现了以下几种情况：\n\n    1.cookie已经过旧了。cookie中的用于验证您身份的ID有效期很短，一般一段时间未使用就会失效。您可以重新获取一次cookie；\n    2.cookie的格式不正确，例如您可能为cookie带上了双引号。您可以查看输入框下方的教程；\n    3.如果您确定您正确地填入了学号和cookie却还是出现错误的话，请通过右下角的“提交Bug“中的QQ号码与我联系（加好友时注明提交bug）。\n\n")
+                    elif rres.status_code==500:
+                        QMessageBox.warning(self,"错误","1系统暂时宕机，请重新点击确认按钮")
+                    else:
+                        QMessageBox.warning(self,"未知错误","未能从1系统验证您的cookie，您可以截图日志区向我提交bug。")
+                else:
+                    self.manualCookieSubmit.emit(cookie)
+                    return super().accept()
+            def reject(self) -> None:
+                return super().reject()
+        def receiveCookie(cookie:str):
+            self.cookie = cookie
+            rres = tools.getDataOnce(cookie,self.sNum)
+            res = json.loads(rres.text)
+            self.basicInfo = res['data']
+            self.ui.selectTermComboBox.removeItem(0)
+            if len(self.basicInfo['term'])==0:
+                self.ui.selectTermComboBox.addItem("最新的学期")
+                QMessageBox.warning(self,"提示","您在成绩系统中目前没有学期信息，若启动查询，将默认查询本学期。\n请放心，这种情况是正常的。")
+            else:
+                for term in self.basicInfo['term']:
+                    self.ui.selectTermComboBox.addItem(term['termName'])
+            self.logger.info("获取学生信息中")
+            try:
+                t= requests.get(f"https://1.tongji.edu.cn/api/studentservice/studentDetailInfo/getStatusInfoByStudentId?studentId={self.sNum}&_t={int(time.time()*1000)}",headers={"cookie":self.cookie,"user-agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.66 Safari/537.36 Edg/103.0.1264.44","referer":"https://1.tongji.edu.cn/oldStysteMyGrades"}).text
+                res = json.loads(t)
+                self.ui.OSloginstatus.setText("<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">已登录</span></p></body></html>")
+                self.ui.nameLabel.setText(res['data'][0]['studentName'] if "studentName" in res['data'][0] else "无姓名信息")
+                self.ui.facultyLabel.setText(res['data'][0]['cultureProfessionName'] if "cultureProfessionName" in res['data'][0] else "无专业信息")
+                self.ui.gradeLabel.setText(str(res['data'][0]['currentGrade']) if "currentGrade" in res['data'][0] else "无年级信息")
+                self.logger.info("获取学生信息成功")
+            except Exception as e:
+                self.logger.info("获取学生信息不成功，错误是"+str(e)+"，服务器返回了"+t)
+            self.ui.mailLineEdt.setReadOnly(False)
+            self.ui.mailLineEdt.setText("")
+        if self.sNum == '':
+            QMessageBox.warning(self,"提示","请先输入学号再登录1系统")
+            return
+        manualCookieDlg = manual_cookie_dlg(self)
+        manualCookieDlg.manualCookieSubmit.connect(receiveCookie)
+        manualCookieDlg.exec()
+            
+
 
     # def setCookie(self):
     #     cookie = self.ui.cookieLineEdt.text()
