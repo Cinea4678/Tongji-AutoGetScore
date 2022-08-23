@@ -45,7 +45,7 @@ class Ui_Dialog(object):
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
         self.cookieHelpLebel_2 = QtWidgets.QLabel(self.InputBox)
-        self.cookieHelpLebel_2.setGeometry(QtCore.QRect(90, 110, 571, 81))
+        self.cookieHelpLebel_2.setGeometry(QtCore.QRect(90, 100, 571, 91))
         self.cookieHelpLebel_2.setTextFormat(QtCore.Qt.RichText)
         self.cookieHelpLebel_2.setScaledContents(False)
         self.cookieHelpLebel_2.setWordWrap(True)
