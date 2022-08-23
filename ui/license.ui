@@ -10,6 +10,11 @@
     <height>374</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>微软雅黑</family>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>版权信息</string>
   </property>

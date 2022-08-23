@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'd:\算法实验室\17pyqt查成绩\Tongji-AutoGetScore\verifyMail.ui'
+# Form implementation generated from reading ui file 'd:\算法实验室\17pyqt查成绩\Tongji-AutoGetScore\ui\verifyMail.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -15,6 +15,9 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(522, 223)
+        font = QtGui.QFont()
+        font.setFamily("微软雅黑")
+        Dialog.setFont(font)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setGeometry(QtCore.QRect(170, 180, 341, 32))
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)

@@ -10,6 +10,11 @@
     <height>171</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>微软雅黑</family>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>手动登陆至1系统</string>
   </property>

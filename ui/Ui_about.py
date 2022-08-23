@@ -15,6 +15,9 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(780, 480)
+        font = QtGui.QFont()
+        font.setFamily("微软雅黑")
+        Dialog.setFont(font)
         self.img = QtWidgets.QLabel(Dialog)
         self.img.setGeometry(QtCore.QRect(160, 30, 471, 91))
         self.img.setStyleSheet("")

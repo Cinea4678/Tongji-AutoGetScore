@@ -15,6 +15,9 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(540, 171)
+        font = QtGui.QFont()
+        font.setFamily("微软雅黑")
+        Dialog.setFont(font)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setGeometry(QtCore.QRect(180, 130, 341, 32))
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
