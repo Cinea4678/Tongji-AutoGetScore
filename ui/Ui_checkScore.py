@@ -74,6 +74,7 @@ class Ui_Dialog(object):
         self.selectTermComboBox.addItem("")
         self.horizontalLayout_3.addWidget(self.selectTermComboBox)
         self.label_6 = QtWidgets.QLabel(self.horizontalLayoutWidget_2)
+        self.label_6.setOpenExternalLinks(True)
         self.label_6.setObjectName("label_6")
         self.horizontalLayout_3.addWidget(self.label_6)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)

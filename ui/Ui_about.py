@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(780, 440)
+        Dialog.resize(780, 480)
         self.img = QtWidgets.QLabel(Dialog)
         self.img.setGeometry(QtCore.QRect(160, 30, 471, 91))
         self.img.setStyleSheet("")
@@ -39,6 +39,7 @@ class Ui_Dialog(object):
         self.label_6 = QtWidgets.QLabel(Dialog)
         self.label_6.setGeometry(QtCore.QRect(40, 290, 361, 61))
         self.label_6.setStyleSheet("")
+        self.label_6.setOpenExternalLinks(True)
         self.label_6.setObjectName("label_6")
         self.label_7 = QtWidgets.QLabel(Dialog)
         self.label_7.setGeometry(QtCore.QRect(390, 290, 361, 61))
@@ -52,6 +53,9 @@ class Ui_Dialog(object):
         self.label_9.setGeometry(QtCore.QRect(130, 380, 531, 41))
         self.label_9.setStyleSheet("")
         self.label_9.setObjectName("label_9")
+        self.copyRightMsg = QtWidgets.QPushButton(Dialog)
+        self.copyRightMsg.setGeometry(QtCore.QRect(340, 430, 131, 28))
+        self.copyRightMsg.setObjectName("copyRightMsg")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -67,3 +71,4 @@ class Ui_Dialog(object):
         self.label_7.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\"> 邮箱：cinea@cinea.com.cn</span></p></body></html>"))
         self.label_8.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">提交BUG请到Github Issue区或向我发送邮件</span></p></body></html>"))
         self.label_9.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:11pt;\">严重/紧急的BUG也可以添加我的QQ：1650121748（注明来意）</span></p></body></html>"))
+        self.copyRightMsg.setText(_translate("Dialog", "版权信息"))

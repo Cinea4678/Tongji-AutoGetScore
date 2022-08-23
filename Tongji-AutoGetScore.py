@@ -10,6 +10,7 @@ import ui.Ui_checkScore as Ui_checkScore
 import ui.Ui_verifyMail as Ui_verifyMail
 import ui.Ui_manualLogin as Ui_manualLogin
 import ui.Ui_about as Ui_about
+import ui.Ui_license as Ui_license
 
 stop_flag = False
 
@@ -262,10 +263,19 @@ class MainDialog(QDialog):
                 super().__init__()
                 self.ui = Ui_about.Ui_Dialog()
                 self.ui.setupUi(self)
-                self.setFixedSize(780,440)
+                self.setFixedSize(780,480)
                 me_img = os.path.abspath("sources/CineaWorks.png")
                 image = QPixmap(me_img)
                 self.ui.img.setPixmap(image)
+                self.ui.copyRightMsg.clicked.connect(self.license)
+            def license(self):
+                class licenseDlg(QDialog):
+                    def __init__(self):
+                        super().__init__()
+                        self.ui=Ui_license.Ui_Dialog()
+                        self.ui.setupUi(self)
+                ldlg = licenseDlg()
+                ldlg.exec()
         dlg = aboutDlg()
         dlg.exec()
     
