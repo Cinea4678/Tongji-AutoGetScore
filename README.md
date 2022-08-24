@@ -56,7 +56,7 @@ pip3 install -r pipRequirement.txt
 3. 启动程序
 
 ```bash
-python3 main.py
+python3 Tongji-AutoGetScore.py
 ```
 
 
