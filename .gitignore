@@ -7,3 +7,4 @@ helloworld.py
 ui/Ui_checkScore_cookieStyleOld.py
 ui/checkScore_cookieStyleOld.ui
 *.psd
+.eggs

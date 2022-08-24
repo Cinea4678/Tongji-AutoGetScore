@@ -488,9 +488,9 @@ class MainDialog(QDialog):
                 QMessageBox.warning(self,"错误","您还未完成基础配置")
                 return
             if platform.system() == "Darwin":
-                QMessageBox.info(self,"提示","您使用的是Apple Darwin（OS X）操作系统，由于苹果对后台、省电管理严格，请务必前往“系统偏好设置”—“节能”勾选“当显示器关闭时，防止Mac自动进入睡眠”并接入电源使用本程序。\n\n由于作者没有Mac实机，测试完全在虚拟机上进行，因此无法保证运行无虞，若出现Bug请您谅解。")
+                QMessageBox.information(self,"提示","您使用的是Apple Darwin（OS X）操作系统，由于苹果对后台、省电管理严格，请务必前往“系统偏好设置”—“节能”勾选“当显示器关闭时，防止Mac自动进入睡眠”并接入电源使用本程序。\n\n由于作者没有Mac实机，测试完全在虚拟机上进行，因此无法保证运行无虞，若出现Bug请您谅解。")
             elif platform.system() == "Windows":
-                QMessageBox.info(self,"提示","您使用的是Windows操作系统，为防止程序意外停止，请务必右键点击“开始菜单”，选择“电源选项”，将“接通电源后，系统将进入睡眠状态”设为“永不”并将设备接入电源。")
+                QMessageBox.information(self,"提示","您使用的是Windows操作系统，为防止程序意外停止，请务必右键点击“开始菜单”，选择“电源选项”，将“接通电源后，系统将进入睡眠状态”设为“永不”并将设备接入电源。")
             self.ui.startButton.setText("停止查询")
             stop_flag=False
             self.thread = queryThread(self.logger,self.pbarUpdateSignal,self.basicInfo,self.delay,self.cookie,self.term,self.mail,self.sNum)
