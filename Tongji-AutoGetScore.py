@@ -198,7 +198,7 @@ class verifyMailDialog(QDialog):
             veLastSendTime = res["lastSendTime"]
 
     def accept(self) -> None:
-        resp = requests.post("https://www.cinea.com.cn/api/sqp/verify",params={"mail":self.mail,"code":self.ui.varifyCodeLE.text()})
+        resp = requests.post("https://www.cinea.com.cn/api/sqp/verify",params={"mail":self.mail,"code":self.ui.varifyCodeLE.text().encode("utf-8").decode("latin1")})
         if resp.status_code == 403:
             QMessageBox.warning(self,"验证码错误","您输入的验证码有误，请重新输入！")
             return
@@ -341,7 +341,7 @@ class MainDialog(QDialog):
                 self.setFixedSize(540,171)
                 self.setWindowTitle("手动登录到1系统")
             def accept(self) -> None:
-                cookie = self.ui.lineEdit.text()
+                cookie = self.ui.lineEdit.text().encode("utf-8").decode("latin1").encode("utf-8").decode("latin1")
                 if re.match("^.+=.+$",cookie) and "JSESSIONID" in cookie and "sessionid" in cookie:
                     self.cookie = cookie
                     logger.info(f"设置了cookie: {self.cookie }")
@@ -398,46 +398,9 @@ class MainDialog(QDialog):
         manualCookieDlg = manual_cookie_dlg(self)
         manualCookieDlg.manualCookieSubmit.connect(receiveCookie)
         manualCookieDlg.exec()
-            
-
-
-    # def setCookie(self):
-    #     cookie = self.ui.cookieLineEdt.text()
-    #     if re.match("^.+=.+$",cookie):
-    #         self.cookie = cookie
-    #         logger.info(f"设置了cookie: {self.cookie }")
-    #         self.logger.info(f"设置了cookie")
-    #     else:
-    #         QMessageBox.warning(self,"错误","您输入的cookie不正确")
-    #         return
-    #     try:
-    #         rres = tools.getDataOnce(cookie,self.sNum)
-    #     except:
-    #         QMessageBox.warning(self,"错误","您的电脑可能没有联网")
-    #         return
-    #     if rres.status_code!=200:
-    #         self.logger.warning(f"验证cookie失败。HTTP错误码是{rres.status_code}，服务器返回信息：{rres.text}")
-    #         if rres.status_code==401:
-    #             QMessageBox.warning(self,"错误","您填入的cookie无法通过1系统验证。请您检查是否出现了以下几种情况：\n\n    1.cookie已经过旧了。cookie中的用于验证您身份的ID有效期很短，一般一段时间未使用就会失效。您可以重新获取一次cookie；\n    2.cookie的格式不正确，例如您可能为cookie带上了双引号。您可以查看输入框下方的教程；\n    3.如果您确定您正确地填入了学号和cookie却还是出现错误的话，请通过右下角的“提交Bug“中的QQ号码与我联系（加好友时注明提交bug）。\n\n")
-    #         elif rres.status_code==500:
-    #             QMessageBox.warning(self,"错误","1系统暂时宕机，请重新点击确认按钮")
-    #         else:
-    #             QMessageBox.warning(self,"未知错误","未能从1系统验证您的cookie，您可以截图日志区向我提交bug。")
-    #     else:
-    #         res = json.loads(rres.text)
-    #         self.basicInfo = res['data']
-    #         self.ui.selectTermComboBox.removeItem(0)
-    #         if len(self.basicInfo['term'])==0:
-    #             self.ui.selectTermComboBox.addItem("最新的学期")
-    #             QMessageBox.warning(self,"提示","您在成绩系统中目前没有学期信息，若启动查询，将默认查询本学期。\n请放心，这种情况是正常的。")
-    #         else:
-    #             for term in self.basicInfo['term']:
-    #                 self.ui.selectTermComboBox.addItem(term['termName'])
-    #         self.ui.mailLineEdt.setReadOnly(False)
-    #         self.ui.mailLineEdt.setText("")
 
     def setMail(self):
-        mail = self.ui.mailLineEdt.text()
+        mail = self.ui.mailLineEdt.text().encode("utf-8").decode("latin1")
         if re.match("^\w+@\w+\.[\w\.]+$",mail):
             #邮箱验证模块开始，使用了本人自己的api
             global veLastSendAddr,veLastSendTime
@@ -471,7 +434,7 @@ class MainDialog(QDialog):
             #self.ui.setMailSuccessLabel.setVisible(True)
 
     def setNo(self):
-        sNum = self.ui.studentNumberEdit.text()
+        sNum = self.ui.studentNumberEdit.text().encode("utf-8").decode("latin1")
         if re.match("^[0-9]{4,8}$",sNum):
             logger.info(f"设置了学号: {sNum}")
             self.logger.info(f"设置了学号: {sNum}")
