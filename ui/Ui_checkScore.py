@@ -233,7 +233,7 @@ class Ui_Dialog(object):
         self.chooseTermLabel.setText(_translate("Dialog", "选择学期"))
         self.selectTermComboBox.setCurrentText(_translate("Dialog", "请先登录1系统"))
         self.selectTermComboBox.setItemText(0, _translate("Dialog", "请先登录1系统"))
-        self.label_6.setText(_translate("Dialog", "<html><head/><body><p><a href=\"https://www.cinea.com.cn\"><span style=\" text-decoration: underline; color:#0000ff;\">没有想要查询的学期？点击这里查看帮助</span></a></p></body></html>"))
+        self.label_6.setText(_translate("Dialog", "<html><head/><body><p><a href=\"https://blog.cinea.com.cn/TJAGS/NoWantedTerm.html\"><span style=\" text-decoration: underline; color:#0000ff;\">没有想要查询的学期？点击这里查看帮助</span></a></p></body></html>"))
         self.label.setText(_translate("Dialog", "设置消息通知邮箱"))
         self.mailConfirmBtn.setText(_translate("Dialog", "确定"))
         self.cookieHelpLebel_3.setText(_translate("Dialog", "<html><head/><body><p align=\"right\">作者提示：如果没有邮箱的话可以输入QQ邮箱（<span style=\" font-style:italic;\">你的QQ号</span>@qq.com）</p></body></html>"))

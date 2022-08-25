@@ -49,5 +49,5 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "手动登陆至1系统"))
         self.label.setText(_translate("Dialog", "请在下方方框中输入手动获取的1系统cookie："))
-        self.cookieHelpLebel.setText(_translate("Dialog", "<html><head/><body><p align=\"right\"><a href=\"https://www.cinea.com.cn\"><span style=\" text-decoration: underline; color:#0000ff;\">不知道如何获取cookie？点击这里查看超详细教程</span></a></p></body></html>"))
+        self.cookieHelpLebel.setText(_translate("Dialog", "<html><head/><body><p align=\"right\"><a href=\"https://blog.cinea.com.cn/TJAGS/howcookie.html\"><span style=\" text-decoration: underline; color:#0000ff;\">不知道如何获取cookie？点击这里查看超详细教程</span></a></p></body></html>"))
         self.cookieHelpLebel_5.setText(_translate("Dialog", "<html><head/><body><p><a href=\"https://1.tongji.edu.cn\"><span style=\" text-decoration: underline; color:#0000ff;\">一键前往1系统</span></a></p></body></html>"))
