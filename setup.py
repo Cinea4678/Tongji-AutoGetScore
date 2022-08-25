@@ -5,10 +5,11 @@ Usage:
     python setup.py py2app
 """
 
-import sys
+import sys,os
 from setuptools import setup
 
 if sys.platform == 'darwin':
+    sys.argv.append("py2app")
     APP = ['Tongji-AutoGetScore.py']
     DATA_FILES = ['sources','tools.py','ui']
     OPTIONS = {
@@ -31,4 +32,4 @@ if sys.platform == 'darwin':
         setup_requires=['py2app'],
     )
 elif sys.platform == 'win32':
-    pass
+    os.system("pyinstaller -D -i sources/nmck_bb.ico --noconsole Tongji-AutoGetScore.py")
