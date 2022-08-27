@@ -1,3 +1,7 @@
+'''
+Tongji-AutoGetScore.py
+Copyright (c) 2022 Cinea. All right reserved.
+'''
 import sys,re,threading,time,requests,json,os,platform
 from PyQt5.QtWidgets import QApplication,QDialog,QMessageBox,QTextEdit,QPushButton,QProgressBar,QMainWindow
 from PyQt5.QtGui import QIcon,QPixmap
@@ -49,7 +53,11 @@ class queryThread(threading.Thread):
         errors = 0
 
         def query_once():
-            rawres = tools.getDataOnce(self.cookie,self.snum)
+            try:
+                rawres = tools.getDataOnce(self.cookie,self.snum)
+            except:
+                logger.error(f"查询成绩时出现异常！没有成功执行get操作")
+                return 1
             try:
                 res = json.loads(rawres.text)
             except:
